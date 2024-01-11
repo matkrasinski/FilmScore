@@ -5,8 +5,9 @@ from sklearn.base import BaseEstimator, TransformerMixin
 import numpy as np
 
 class OneHotEncoderTransformer(BaseEstimator, TransformerMixin):
-  def __init__(self, fill_value="NaN", weight=1.0):
-    self.ohe = OneHotEncoder(handle_unknown='ignore')
+  def __init__(self, fill_value="NaN", weight=1.0, sparse_output=True):
+    self.sparse_output = sparse_output
+    self.ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=self.sparse_output)
     self.fill_value = fill_value
     self.weight = weight
 
