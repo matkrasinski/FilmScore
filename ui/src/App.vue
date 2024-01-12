@@ -1,17 +1,26 @@
 <template>
-  
-  <basic-form @form-submitted="handleFormSubmission"/>
+  <div>
+    <!-- <my-multi-select></my-multi-select> -->
+    <basic-form @form-submitted="handleFormSubmission"/>
+  </div>
 </template>
 
 <script>
 import axios from "axios"
 import BasicForm from './components/BasicForm.vue'
+// import MyMultiSelect from './components/MyMultiSelect.vue';
+
 
 export default {
   name: 'App',
   components: {
-    
-    BasicForm
+    BasicForm, 
+    // MyMultiSelect
+  },
+  data() {
+    return {
+      //
+    }
   },
   methods: {
     handleFormSubmission(formData) {
