@@ -8,19 +8,12 @@
 <script>
 import axios from "axios"
 import BasicForm from './components/BasicForm.vue'
-// import MyMultiSelect from './components/MyMultiSelect.vue';
 
 
 export default {
   name: 'App',
   components: {
     BasicForm, 
-    // MyMultiSelect
-  },
-  data() {
-    return {
-      //
-    }
   },
   methods: {
     handleFormSubmission(formData) {

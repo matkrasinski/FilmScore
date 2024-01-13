@@ -1,4 +1,3 @@
-<!-- MovieForm.vue -->
 <template>
   <form @submit.prevent="submitForm" class="movie-form">
     <div class="form-group">
@@ -36,6 +35,8 @@
       v-model="formData.directors"
       :options="people"
       :multiple="true"
+      :label="'name'"
+      :trackBy="'id'"
       />
     </div>
     
@@ -45,6 +46,8 @@
       v-model="formData.actors"
       :options="people"
       :multiple="true"
+      :label="'name'"
+      :trackBy="'id'"
       />
     </div>
     
@@ -92,12 +95,12 @@ export default {
       formData: {
         belongs_to_collection: "",
         genres: [],
-        original_language: "",
+        original_language: "", 
         release_date: "",
         production_companies: [],
         runtime: "",
         spoken_languages: [],
-        status: "",
+        status: "", 
         keywords: "",
         videos: "",
         actors: [],
@@ -112,7 +115,6 @@ export default {
   },
   components: {
     VueMultiselect 
-
   },
   created() {
     this.loadPeople()
@@ -121,19 +123,24 @@ export default {
     this.loadLanguages()
   },
   methods: {
+    parseDataToSubmit() {
+      let parsedData = {...this.formData}
+      parsedData.directors = parsedData.directors.map(director => director.id)
+      parsedData.actors = parsedData.actors.map(actor => actor.id)
+
+      return parsedData
+    },
+
     submitForm() {
-      this.$emit('form-submitted', this.formData);
+      this.$emit('form-submitted', this.parseDataToSubmit());
     },
     async loadPeople() {
       axios.get("http://localhost:5000/data/people")
       .then(response => {
-        console.log("Response: ", response.data)
-        this.people = Object.keys(response.data)
-        // this.people = Object.entries(this.people).map(([key, value]) => ({
-        //   [key]: [key, value]
-        // }));
-
-        console.log(this.people)
+        this.people = response.data
+        this.people = Object.entries(this.people).map(([key, value]) => ({
+          id: key, name: value
+        }));
       })
       .catch(error => {
         console.error("Error: ", error)
@@ -142,7 +149,6 @@ export default {
     async loadGenres() {
       axios.get("http://localhost:5000/data/genres")
       .then(response => {
-        console.log("Response: ", response.data)
         this.genres = response.data
       })
       .catch(error => {
@@ -152,7 +158,6 @@ export default {
     async loadCompanies() {
       axios.get("http://localhost:5000/data/companies")
       .then(response => {
-        console.log("Response: ", response.data)
         this.production_companies = response.data
       })
       .catch(error => {
@@ -162,7 +167,6 @@ export default {
     async loadLanguages() {
       axios.get("http://localhost:5000/data/languages")
       .then(response => {
-        console.log("Response: ", response.data)
         this.spoken_languages = response.data
       })
       .catch(error => {

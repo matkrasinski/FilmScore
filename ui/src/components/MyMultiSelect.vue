@@ -8,22 +8,22 @@
     </VueMultiselect>
   </div>
 </template>
-
+ 
 <script>
 import VueMultiselect from 'vue-multiselect'
-import axios from 'axios'
+import axios from 'axios' 
 
 export default {
   components: { VueMultiselect },
   data () {
-    return {
+    return { 
       selected: null,
       people: []
     }
   },
   created() {
     this.loadAndParseCSV()
-  },
+  }, 
   methods: {
     async loadAndParseCSV() {
       axios.get("http://localhost:5000/data/people")

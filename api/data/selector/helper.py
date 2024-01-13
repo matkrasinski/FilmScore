@@ -1,8 +1,11 @@
 import pandas as pd
 
+people = []
 
 def retrieve_all_people():
-  people = pd.read_csv("imdb/name.basics.tsv", sep="\t", nrows=50000)
+  global people
+  if len(people) == 0:
+    people = pd.read_csv("imdb/name.basics.tsv", sep="\t", nrows=50000)
   return people.set_index("nconst")["primaryName"].to_dict()
 
 
