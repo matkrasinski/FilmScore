@@ -1,88 +1,91 @@
 <template>
-  <form @submit.prevent="submitForm" class="movie-form">
-    <div class="form-group">
-      <label for="original_language">Original Language:</label>
-      <input v-model="formData.original_language" type="text" id="original_language" name="original_language">
-    </div>
+  <div class="container pt-32">
 
-    <div class="form-group">
-      <label for="runtime">Runtime:</label>
-      <input v-model="formData.runtime" type="text" id="runtime" name="runtime">
-    </div>
-
-    <div class="form-group">
-      <label for="belongs_to_collection">Belongs to Collection:</label>
-      <input v-model="formData.belongs_to_collection" type="text" id="belongs_to_collection" name="belongs_to_collection">
-    </div>
-    
-    <div class="form-group">
-      <label for="release_date">Release Date:</label>
-      <input v-model="formData.release_date" type="date" class="form-control" id="release_date" name="release_date">
-    </div>
-
-    <div class="form-group">
-      <label for="genres">Genres:</label>
-      <VueMultiselect
-      v-model="formData.genres"
-      :options="genres"
-      :multiple="true"
-      />
-    </div>
-  
-    <div class="form-group">
-      <label>Directors:</label>
-      <VueMultiselect
-      v-model="formData.directors"
-      :options="people"
-      :multiple="true"
-      :label="'name'"
-      :trackBy="'id'"
-      />
-    </div>
-    
-    <div class="form-group">
-      <label>Actors:</label>
-      <VueMultiselect
-      v-model="formData.actors"
-      :options="people"
-      :multiple="true"
-      :label="'name'"
-      :trackBy="'id'"
-      />
-    </div>
-    
-    <div class="form-group">
-      <label for="production_companies">Production Companies:</label>
-      <VueMultiselect
+    <form @submit.prevent="submitForm" class="movie-form">
+      <div class="form-group">
+        <label for="original_language">Original Language:</label>
+        <input v-model="formData.original_language" class="form-control" type="text" id="original_language" name="original_language">
+      </div>
+      
+      <div class="form-group">
+        <label for="runtime">Runtime:</label>
+        <input v-model="formData.runtime" class="form-control"  type="text" id="runtime" name="runtime">
+      </div>
+      
+      <div class="form-group">
+        <label for="belongs_to_collection">Belongs to Collection:</label>
+        <input v-model="formData.belongs_to_collection" class="form-control"  type="text" id="belongs_to_collection" name="belongs_to_collection">
+      </div>
+      
+      <div class="form-group">
+        <label for="release_date">Release Date:</label>
+        <input v-model="formData.release_date" type="date" class="form-control" id="release_date" name="release_date">
+      </div>
+      
+      <div class="form-group">
+        <label for="genres">Genres:</label>
+        <VueMultiselect
+        v-model="formData.genres"
+        :options="genres"
+        :multiple="true"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label>Directors:</label>
+        <VueMultiselect
+        v-model="formData.directors"
+        :options="people"
+        :multiple="true"
+        :label="'name'"
+        :trackBy="'id'"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label>Actors:</label>
+        <VueMultiselect
+        v-model="formData.actors"
+        :options="people"
+        :multiple="true"
+        :label="'name'"
+        :trackBy="'id'"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="production_companies">Production Companies:</label>
+        <VueMultiselect
         v-model="formData.production_companies"
         :options="production_companies"
         :multiple="true"
         />
-    </div>
-
-    <div class="form-group">
-      <label for="spoken_languages">Spoken Languages:</label>
-      <VueMultiselect
+      </div>
+      
+      <div class="form-group">
+        <label for="spoken_languages">Spoken Languages:</label>
+        <VueMultiselect
         v-model="formData.spoken_languages"
         :options="spoken_languages"
         :multiple="true"
         />
-    </div>
-
-    <div class="form-group">
-      <label for="keywords">Keywords:</label>
-      <input v-model="formData.keywords" type="text" id="keywords" name="keywords">
-    </div>
-
-    <div class="form-group">
-      <label for="videos">Videos:</label>
-      <input v-model="formData.videos" type="text" id="videos" name="videos">
-    </div>
-
-    <div class="form-group">
-      <input type="submit" value="Submit">
-    </div>
-  </form>
+      </div>
+      
+      <div class="form-group">
+        <label for="keywords">Keywords:</label>
+        <input v-model="formData.keywords" class="form-control" type="text" id="keywords" name="keywords">
+      </div>
+      
+      <div class="form-group">
+        <label for="videos">Videos:</label>
+        <input v-model="formData.videos" class="form-control" type="text" id="videos" name="videos">
+      </div>
+      
+      <div class="form-group">
+        <input class="form-control" type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>

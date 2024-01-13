@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add custom styles for the sliding effect */
+.slide-enter-active, .slide-leave-active {
+    transition: transform 1s;
+}
+.slide-enter, .slide-leave-to {
+  transform: translateX(100%);
+}
+
