@@ -132,7 +132,22 @@ export default {
     },
 
     submitForm() {
-      this.$emit('form-submitted', this.parseDataToSubmit());
+      let formData = this.parseDataToSubmit()
+      const jsonData = JSON.stringify(formData);
+
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+
+      console.log(jsonData);
+      axios.post("http://localhost:5000/model/predict", jsonData, { headers })
+      .then(response => {
+        console.log("Response: ", response.data)
+      })
+      .catch(error => {
+        console.error("Error: ", error)
+      })
+      // this.$emit('form-submitted', this.parseDataToSubmit());
     },
     async loadPeople() {
       axios.get("http://localhost:5000/data/people")
@@ -198,7 +213,6 @@ select {
   box-sizing: border-box;
 }
 
-/* Add Bootstrap styling for button */
 .btn-primary {
   background-color: #007bff;
   color: #fff;
