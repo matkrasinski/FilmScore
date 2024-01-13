@@ -6,6 +6,7 @@ from .downloader.downloader import download_IMDB_files, download_TMDB_files
 from .status.status_checker import *
 from .generator.ratings_generator import generate_ratings
 from .selector.helper import retrieve_all_people, retrieve_genres, retrieve_companies_languages
+from .selector.movie_selector import get_all_movies
 
 
 
@@ -38,6 +39,9 @@ def get_companies():
 
 def get_languages():
   return retrieve_companies_languages()[1]
+
+def get_movies():
+  return get_all_movies()
 
 # TODO
 def update_data():

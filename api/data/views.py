@@ -1,5 +1,5 @@
 from flask import Blueprint
-from .data_manager import check_data_status, get_people, get_genres, get_companies, get_languages
+from .data_manager import check_data_status, get_people, get_genres, get_companies, get_languages, get_all_movies
 
 import json
 
@@ -31,3 +31,10 @@ def _get_languages():
   languages = get_languages()
 
   return json.dumps(languages)
+
+
+@data_bp.route("/movies", methods=["GET"])
+def _get_all_movies():
+  movies = get_all_movies()
+
+  return json.dumps(movies)

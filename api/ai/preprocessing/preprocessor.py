@@ -2,9 +2,32 @@ import pandas as pd
 import numpy as np
 
 def prepare_tmdb_data():
-  tmdb_data = pd.read_csv("tmdb/tmdb.csv")
-  tmdb_data = tmdb_data.drop(columns=["budget", "production_countries", "vote_average", "vote_count", "cast", "crew"])
+  tmdb_data = merge_tmdb_imdb() # pd.read_csv("tmdb/tmdb.csv")
+  # tmdb_data.reset_index(drop=True)
+
+  # imdb_ratings = pd.read_csv("imdb/title.ratings.tsv", sep="\t")
+  # tmdb_data = tmdb_data.merge(imdb_ratings, left_on="imdb_id", right_on="tconst", how="inner")
+
+  # directors = prepare_directors()
+  # tmdb_data = tmdb_data.merge(directors, left_on="imdb_id", right_on="tconst", how="inner")
+
+  # actors = prepare_actors()
+  # tmdb_data = tmdb_data.merge(actors, left_on="imdb_id", right_on="tconst", how="inner")
+
   tmdb_data = tmdb_data[tmdb_data["runtime"] != 0]
+  tmdb_data = tmdb_data.drop(columns=["budget", "vote_average", "vote_count"])
+
+  tmdb_data = tmdb_data[tmdb_data["release_date"] >= "1970-01-01"]
+  tmdb_data = tmdb_data[tmdb_data["numVotes"] >= 100]
+  tmdb_data = tmdb_data[tmdb_data["runtime"] >= 60]
+
+  print("prepare_tmdb_data ", len(tmdb_data))
+
+  return tmdb_data
+
+
+def merge_tmdb_imdb():
+  tmdb_data = pd.read_csv("tmdb/tmdb.csv")
   tmdb_data.reset_index(drop=True)
 
   imdb_ratings = pd.read_csv("imdb/title.ratings.tsv", sep="\t")
@@ -16,14 +39,24 @@ def prepare_tmdb_data():
   actors = prepare_actors()
   tmdb_data = tmdb_data.merge(actors, left_on="imdb_id", right_on="tconst", how="inner")
 
-  tmdb_data = tmdb_data[tmdb_data["release_date"] >= "1970-01-01"]
-  tmdb_data = tmdb_data[tmdb_data["numVotes"] >= 100]
-  tmdb_data = tmdb_data[tmdb_data["runtime"] >= 60]
-
-  print("prepare_tmdb_data ", len(tmdb_data))
+  tmdb_data = tmdb_data.drop(columns=["cast", "crew", "tconst_x", "tconst_y", "production_countries"])
 
   return tmdb_data
 
+def adjust_people(data):
+  data["directors"] = data["directors"].apply(lambda x: "|".join(x))
+  data["actors"] = data["actors"].apply(lambda x: "|".join(x))
+
+  data['actors'] = data['actors'].apply(lambda d: d if isinstance(d, list) else [])
+  data['directors'] = data['directors'].apply(lambda d: d if isinstance(d, list) else [])
+
+  return data
+
+def split_people(data):
+  data["directors"] = data["directors"].apply(lambda x: x.split("|") if isinstance(x, str) else [])
+  data["actors"] = data["actors"].apply(lambda x: x.split("|") if isinstance(x, str) else [])
+
+  return data
 
 def prepare_directors():
   directors_df = pd.read_csv("imdb/title.crew.tsv", sep="\t")
@@ -93,7 +126,7 @@ def fillna_ratings(data):
 def fillna(data):
   data["keywords"].fillna("", inplace=True)
 
-  return fillna_ratings(data)
+  return data
 
 
 
@@ -101,7 +134,8 @@ def prepare_data():
   tmdb_data = prepare_tmdb_data()
   tmdb_data = adjust_data(tmdb_data)
   tmdb_data = apply_ratings(tmdb_data)
-  
+  tmdb_data = fillna_ratings(tmdb_data)
+
   return fillna(tmdb_data)
 
   

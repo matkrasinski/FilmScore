@@ -1,19 +1,20 @@
 <template>
   <div>
-    <!-- <my-multi-select></my-multi-select> -->
     <basic-form @form-submitted="handleFormSubmission"/>
+    <movies-panel></movies-panel>
   </div>
 </template>
 
 <script>
 import axios from "axios"
 import BasicForm from './components/BasicForm.vue'
-
+import MoviesPanel from "./components/MoviesPanel.vue";
 
 export default {
   name: 'App',
   components: {
     BasicForm, 
+    MoviesPanel
   },
   methods: {
     handleFormSubmission(formData) {
