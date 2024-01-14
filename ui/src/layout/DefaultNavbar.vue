@@ -1,32 +1,33 @@
 <template>
-    <header
+    <div class="pt-32">
+        <header
         class="text-gray-100 py-4 px-6 shadow md:flex justify-between items-center nav-bar w-full z-1 mb-15 duration-300 ease-in"
         :style="{ top: navbarPosition }"
-    >
-        <a href="#welcome" class="flex items-center cursor-pointer">
-            <span class="text-white text-xl mr-1">
-                <i class="bi bi-car-front-fill"></i>
-            </span>
-            <h1 class="text-xl">eDrivingSchool</h1>
-        </a>
-
-
-        <span
-            @click="menuOpen"
-            class="absolute md:hidden right-6 top-4 cursor-pointer text-4xl"
         >
-            <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>
+        <a @click="goTo('/')" class="flex items-center cursor-pointer">
+            <span class="text-white text-xl mr-1">
+            </span>
+            <h1 class="text-5xl font-bold">FilmScore</h1>
+        </a>
+        
+        
+        <span
+        @click="menuOpen"
+        class="absolute md:hidden right-6 top-4 cursor-pointer text-4xl"
+        >
+         <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>
         </span>
-
+        
         <ul
             class="md:flex md:items-center md:px-6 px-6 md:pb-0 pb-10 md:static absolute bg-gray-900 md:w-auto w-full top-14 duration-200 ease-in"
             :class="[isOpen ? 'left-0 bg-opacity-100' : 'left-[-100%] bg-opacity-0']"
         >
             <li class="md:mx-4 md:my-0 my-6" v-for="link in links" :key="link.name">
-                <a :href="link.link" class="text-xl" @click="menuOpen">{{ link.name }}</a>
+                <button @click="goTo(link.link)" class="text-3xl font-bold">{{ link.name }}</button>
             </li>
         </ul>
     </header>
+    </div>
 </template>
 
 <script>
@@ -36,12 +37,9 @@ export default {
     data() {
         return {
             links: [
-                { name: "aboutUs", link: "#aboutUs" },
-                { name: "howToStart", link: "#howToStart" },
-                { name: "prices", link: "#priceList" },
-                { name: "team", link: "#team" },
-                { name: "opinions", link: "#opinions"},
-                { name: "contact", link: "#contact" },
+                { name: "Home", link: "/" },
+                { name: "Movies", link: "/movies" },
+                { name: "Predict", link: "/predict" },
             ],
             isOpen: false,
             isNavbarHidden: false,
@@ -64,6 +62,9 @@ export default {
             const currentScrollPos = window.scrollY;
             this.isNavbarHidden = currentScrollPos > this.prevScrollPos;
             this.prevScrollPos = currentScrollPos;
+        },
+        goTo(path) {
+            this.$router.push(path)
         }
     },
     beforeUnmount() {
@@ -75,7 +76,8 @@ export default {
 <style scoped>
 .nav-bar {
     position: fixed;
-    background: linear-gradient(to right, #00093c, #2d0b00);
+    /* background: linear-gradient(to right, #1e3d61,#3e7acd,  #a5a8df, #a48fd9, #0a977d, #dffad8); */
+    background: linear-gradient(to right,  #4861be, #0a977d);
 }
 
 .language-selector {

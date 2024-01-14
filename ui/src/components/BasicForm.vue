@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-32">
+  <div class="container">
 
     <form @submit.prevent="submitForm" class="movie-form">
       <div class="form-group">

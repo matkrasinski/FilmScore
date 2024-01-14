@@ -77,7 +77,7 @@
       </thead>
       <tbody>
         
-        <tr class="hover" v-for="(movie, index) in movies.slice(0, 500)" :key="index">
+        <tr class="hover" v-for="(movie, index) in movies.slice(0, 20)" :key="index">
           <td>{{ movie.original_title }} </td>
           <td>{{ movie.runtime }}</td>
           <td>{{ movie.belongs_to_collection }}</td>
