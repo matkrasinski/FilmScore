@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from .data_manager import check_data_status, get_people, get_genres, get_companies, get_languages, get_all_movies, get_image
+from .data_manager import check_data_status, get_people, get_genres, get_companies, get_languages, get_all_movies, get_image, get_paged_movies
 
 import json
 
@@ -36,6 +36,15 @@ def _get_languages():
 @data_bp.route("/movies", methods=["GET"])
 def _get_all_movies():
   movies = get_all_movies()
+
+  return json.dumps(movies)
+
+@data_bp.route("/movies/pages", methods=["GET"])
+def _find_movies():
+  page = int(request.args.get("page"))
+  size = int(request.args.get("size"))
+  movies = get_paged_movies(page, size)
+  print(len(movies))
 
   return json.dumps(movies)
 

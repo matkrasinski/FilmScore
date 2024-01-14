@@ -4,7 +4,7 @@
       <score-circle :score="prepareRating()" class="score scale-35"></score-circle>
       <img :src="this.imagePath" class="rounded-3xl shadow-2xl">
     </div>
-    <div class="h-32">
+    <div class="">
       <h1 class="font-bold text-3xl">{{ currentMovie.original_title }}</h1>
       <h2 class="text-2xl">{{ currentMovie.release_date }}</h2>
     </div>
@@ -54,7 +54,7 @@ export default {
 <style scoped>
 
 .score {
-    margin: 280px 80% -585px 0px;
+    margin: 280px 80% -580px 0px;
     z-index: 1;
 }
 i {
@@ -68,7 +68,7 @@ i {
 
 
 img {
-    max-width: 45vh;
+    max-width: 40vh;
     max-height: 100vh;
     display: block;
 }

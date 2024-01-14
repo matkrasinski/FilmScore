@@ -14,6 +14,14 @@ def get_all_movies():
   movies = movies.to_dict(orient="records")
   return movies[:1000]
 
+def find_movies(page, size):
+  global movies
+  if len(movies) == 0:
+    movies = load_movies()
+    movies = movies.to_dict(orient="records")
+
+  return movies[page * size: (page * size) + size]
+
 
 def load_movies():
   try:
@@ -26,8 +34,6 @@ def load_movies():
     save_movies()
     load_movies()
     
-  
-
 
 def save_movies():
   movies = merge_tmdb_imdb()
