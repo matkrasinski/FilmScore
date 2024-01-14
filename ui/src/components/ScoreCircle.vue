@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="circle">
+    <div class="circle" :style="{ 'background-color': this.backgroundColor }">>
       <div v-for="i in numPoints" :key="i" class="points" :class="[i <= this.movieScore ? 'marked' : '']" :style="{ '--i': i + 1, '--bgColor': this.color, '--rot': getRotate() + 'deg'}"></div>
     </div>
     <div class="text">
@@ -12,17 +12,20 @@
 <script>
 export default {
   name: "ScoreCircle",
-  props:["score"],
+  props:["score", "bgColor"],
   data() {
     return {
       numPoints: 100,
       movieScore: this.score,
-      color: "#3c3c3c"
+      color: "#3c3c3c",
+      backgroundColor: "black"
     }
   },
   mounted() {
     this.validateScore()
     this.assignColor()
+    console.log(this.bgColor)
+    this.backgroundColor = this.bgColor
   },
   methods: {
     getRotate() {
@@ -80,7 +83,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #1f2020;
+  /* background-color: #1f2020; */
   border-radius: 100%;
 }
 .circle .points

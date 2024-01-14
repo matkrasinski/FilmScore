@@ -11,8 +11,8 @@
         v-for="movie in this.movies"
         :key="movie.id"
         :movie="movie"
-        :margin="'280px 80% -580px 0px'"
-        :circleColor="'#1f2020'"
+        :margin="'280px 0px -580px 80%'"
+        :circleColor="'#0b3f5d'"
         ></movie-tile>
       </div>
       
@@ -30,7 +30,7 @@ import MovieTile from './MovieTile.vue';
 import axios from 'axios';
 
 export default {
-  name: 'LandingPage',
+  name: 'NewReleasesPage',
   components: {
     MovieTile,
   },
@@ -39,7 +39,7 @@ export default {
       movies: [],
       currentPage: 0,
       pageSize: 8,
-      maxPages: 1000
+      maxPages: 30
     };
   },
   computed: {
@@ -53,7 +53,7 @@ export default {
   methods: {
     async loadMovies(page) {
       axios
-        .get(`http://localhost:5000/data/movies/pages?page=${page}&size=${this.pageSize}`)
+        .get(`http://localhost:5000/data/movies/new/pages?page=${page}&size=${this.pageSize}`)
         .then((response) => {
           this.movies = response.data;
         })

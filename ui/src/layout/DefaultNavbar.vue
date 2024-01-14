@@ -37,7 +37,7 @@ export default {
         return {
             links: [
                 { name: "Home", link: "/" },
-                { name: "New Releases", link: "/" },
+                { name: "New Releases", link: "/releases" },
                 { name: "Movies", link: "/movies" },
                 { name: "Predict", link: "/predict" },
                 { name: "Methodology", link: "/methodology" },

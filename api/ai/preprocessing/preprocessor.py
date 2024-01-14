@@ -26,29 +26,29 @@ def prepare_tmdb_data():
   return tmdb_data
 
 
-def merge_tmdb_imdb():
+def merge_tmdb_imdb(how="inner"):
   tmdb_data = pd.read_csv("tmdb/tmdb.csv")
   tmdb_data.reset_index(drop=True)
 
   imdb_ratings = pd.read_csv("imdb/title.ratings.tsv", sep="\t")
-  tmdb_data = tmdb_data.merge(imdb_ratings, left_on="imdb_id", right_on="tconst", how="inner")
+  tmdb_data = tmdb_data.merge(imdb_ratings, left_on="imdb_id", right_on="tconst", how=how)
 
   directors = prepare_directors()
-  tmdb_data = tmdb_data.merge(directors, left_on="imdb_id", right_on="tconst", how="inner")
+  tmdb_data = tmdb_data.merge(directors, left_on="imdb_id", right_on="tconst", how=how)
 
   actors = prepare_actors()
-  tmdb_data = tmdb_data.merge(actors, left_on="imdb_id", right_on="tconst", how="inner")
+  tmdb_data = tmdb_data.merge(actors, left_on="imdb_id", right_on="tconst", how=how)
 
   tmdb_data = tmdb_data.drop(columns=["cast", "crew", "tconst_x", "tconst_y", "production_countries"])
 
   return tmdb_data
 
 def adjust_people(data):
-  data["directors"] = data["directors"].apply(lambda x: "|".join(x))
-  data["actors"] = data["actors"].apply(lambda x: "|".join(x))
-
   data['actors'] = data['actors'].apply(lambda d: d if isinstance(d, list) else [])
   data['directors'] = data['directors'].apply(lambda d: d if isinstance(d, list) else [])
+
+  data["directors"] = data["directors"].apply(lambda x: "|".join(x))
+  data["actors"] = data["actors"].apply(lambda x: "|".join(x))
 
   return data
 
@@ -124,7 +124,17 @@ def fillna_ratings(data):
 
 
 def fillna(data):
+  data["belongs_to_collection"].fillna("", inplace=True)
   data["keywords"].fillna("", inplace=True)
+  data["spoken_languages"].fillna("", inplace=True)
+  data["videos"].fillna("", inplace=True)
+  data["production_companies"].fillna("", inplace=True)
+  data["tconst"].fillna("", inplace=True)
+  data["actors"].fillna("", inplace=True)
+  data["directors"].fillna("", inplace=True)
+  data["genres"].fillna("", inplace=True)
+  data["release_date"].fillna("", inplace=True)
+
 
   return data
 

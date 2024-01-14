@@ -1,8 +1,12 @@
 <template>
   <div>
     <div class="flex flex-col items-center  rounded-3xl gap-16 my-16">
-      <score-circle :score="prepareRating()" class="score scale-35"></score-circle>
-      <img :src="this.imagePath" class="rounded-3xl shadow-2xl">
+      <score-circle :score="prepareRating()" class="score scale-35" :style="{'margin': mrg}" :bgColor="cColor"></score-circle>
+
+      <img v-if="imagePath != null" :src="this.imagePath" class="rounded-3xl shadow-2xl">
+      <div v-else class="py-72 px-40 text-center shadow-2xl text-9xl bg-slate-200 rounded-3xl">
+        <i class="bi bi-image"></i>
+      </div>
     </div>
     <div class="">
       <h1 class="font-bold text-3xl">{{ currentMovie.original_title }}</h1>
@@ -17,7 +21,7 @@ import axios from "axios"
 
 export default {
   name: 'MovieTile',
-  props: ["movie"],
+  props: ["movie", "margin", "circleColor"],
   components: {
     ScoreCircle
   },
@@ -25,7 +29,9 @@ export default {
     return {
       currentMovie: this.movie,
       movieImage: null,
-      imagePath: ""
+      imagePath: null,
+      mrg: this.margin,
+      cColor: this.circleColor
     }
   },
   mounted() {
@@ -42,6 +48,7 @@ export default {
       axios.get(url)
       .then(response => {
         this.imagePath = response.data
+        console.log(this.imagePath)
       })
       .catch(error => {
         console.error('Błąd podczas pobierania strony:', error.message);
@@ -54,7 +61,7 @@ export default {
 <style scoped>
 
 .score {
-    margin: 280px 80% -580px 0px;
+    /* margin: 280px 0px -580px 80%; */
     z-index: 1;
 }
 i {
