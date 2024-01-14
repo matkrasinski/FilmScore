@@ -1,6 +1,6 @@
 from joblib import dump, load
 from .transformers import *
-from .preprocessing.preprocessor import prepare_data, apply_ratings, fillna
+from .preprocessing.preprocessor import prepare_data, apply_ratings, fillna, fillna_ratings
 from .model.knn import prepare_model
 from ..data.status.status_checker import check_file_status
 from ..data.status.file_status import FileStatus
@@ -87,6 +87,7 @@ def generate_model(save=True):
 def predict_rating(data):
   global model
   data = apply_ratings(data)
+  data = fillna_ratings(data)
   data = fillna(data)
   print(data)
   if model is None:
@@ -94,4 +95,4 @@ def predict_rating(data):
   print(data)
   result = model.predict(data)
   print(result)
-  return result[0]
+  return result

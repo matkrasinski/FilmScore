@@ -13,6 +13,7 @@
         :movie="movie"
         :margin="'280px 80% -580px 0px'"
         :circleColor="'#1f2020'"
+        :scoreName="'averageRating'"
         ></movie-tile>
       </div>
       

@@ -1,6 +1,7 @@
 import pandas as pd
 import os
-from ...ai.preprocessing.preprocessor import merge_tmdb_imdb, adjust_data, adjust_people, fillna, split_people
+from ...ai.preprocessing.preprocessor import *
+from ...ai.model_loader import predict_rating
 
 movies = []
 new_movies = []
@@ -12,33 +13,44 @@ def get_all_movies():
   #   movies = save_movies()
   #   movies = movies.to_dict(orient="records")
 
-  movies = load_movies()
-  movies = movies.to_dict(orient="records")
+  if movies is None or len(movies) == 0:
+    load_movies()
+
+  if type(movies) == pd.DataFrame:
+    movies = movies.to_dict(orient="records")
   return movies[:1000]
 
 def find_released_movies(page, size):
   global movies
-  if len(movies) == 0:
-    print("Released Movies", len(movies))
+  if movies is None or len(movies) == 0:
+    # print("Released Movies", len(movies))
     load_movies()
 
   if type(movies) == pd.DataFrame:
     movies = movies.to_dict(orient="records")
 
-  print(len(movies), type(movies))
+  # print(len(movies), type(movies))
   return movies[page * size: (page * size) + size]
 
 
 def find_new_movies(page, size):
   global new_movies
-  if len(new_movies) == 0:
-    print("New Movies", len(new_movies))  
+  if new_movies is None or len(new_movies) == 0:
+    # print("New Movies", len(new_movies))  
     load_movies()
-    new_movies = new_movies.to_dict(orient="records")
+
+  if "prediction" not in new_movies and type(new_movies) == pd.DataFrame:
+    new_movies = split_people(new_movies)
+    new_movies = adjust_data(new_movies)
+    new_movies = apply_ratings(new_movies)
+    new_movies = fillna(new_movies)
+    new_movies.dropna(inplace=True)
+    new_movies["prediction"] = predict_rating(new_movies)
+    
 
   if type(new_movies) == pd.DataFrame:
     new_movies = new_movies.to_dict(orient="records")
-  print(len(new_movies), type(new_movies))
+  # print(len(new_movies), type(new_movies))
   return new_movies[page * size: (page * size) + size]
 
 def load_movies():
@@ -57,8 +69,8 @@ def load_movies():
     
 def split_movies(all_movies):
   global movies, new_movies
-  movies = all_movies[all_movies["status"] == "Released"][all_movies["numVotes"] > 100]
-  new_movies = all_movies[all_movies["status"] != "Released"][all_movies["numVotes"] <= 100]
+  movies = all_movies[all_movies["status"] == "Released"]
+  new_movies = all_movies[all_movies["status"] != "Released"]
   print("Released len: ", len(movies))
   print("New len: ", len(new_movies))
 

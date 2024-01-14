@@ -13,6 +13,7 @@
         :movie="movie"
         :margin="'280px 0px -580px 80%'"
         :circleColor="'#0b3f5d'"
+        :scoreName="'prediction'"
         ></movie-tile>
       </div>
       

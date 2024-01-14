@@ -21,7 +21,7 @@ import axios from "axios"
 
 export default {
   name: 'MovieTile',
-  props: ["movie", "margin", "circleColor"],
+  props: ["movie", "margin", "circleColor", "scoreName"],
   components: {
     ScoreCircle
   },
@@ -31,7 +31,8 @@ export default {
       movieImage: null,
       imagePath: null,
       mrg: this.margin,
-      cColor: this.circleColor
+      cColor: this.circleColor,
+      score: this.scoreName
     }
   },
   mounted() {
@@ -39,7 +40,7 @@ export default {
   },
   methods: {
     prepareRating() {
-      let rating = this.currentMovie.averageRating
+      let rating = this.currentMovie[this.score]
       rating = parseInt(rating * 1000) / 100;
       return rating
     },
@@ -48,7 +49,6 @@ export default {
       axios.get(url)
       .then(response => {
         this.imagePath = response.data
-        console.log(this.imagePath)
       })
       .catch(error => {
         console.error('Błąd podczas pobierania strony:', error.message);
@@ -61,7 +61,6 @@ export default {
 <style scoped>
 
 .score {
-    /* margin: 280px 0px -580px 80%; */
     z-index: 1;
 }
 i {
@@ -72,7 +71,6 @@ i {
   --tw-scale-y: .35;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-
 
 img {
     max-width: 40vh;

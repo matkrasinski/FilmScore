@@ -24,7 +24,6 @@ export default {
   mounted() {
     this.validateScore()
     this.assignColor()
-    console.log(this.bgColor)
     this.backgroundColor = this.bgColor
   },
   methods: {

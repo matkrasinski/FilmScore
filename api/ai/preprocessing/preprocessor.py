@@ -99,7 +99,7 @@ def adjust_data(data):
   # data["actors_rating"] = data["actors_rating"].fillna(0.580406)
   # data["companies_rating"] = data["companies_rating"].fillna(0.572576)
 
-  data["belongs_to_collection"] = data["belongs_to_collection"].fillna("").apply(lambda x: str(int(x)) if x != "" else "")
+  data["belongs_to_collection"] = data["belongs_to_collection"].fillna("").apply(lambda x: str(x) if x != "" else "")
   # data['keywords'] = data['keywords'].apply(lambda d: d if isinstance(d, str) else '')
   data['keywords'] = data['keywords'].str.replace("|", " ")
   data['videos'] = data['videos'].apply(lambda d: d if isinstance(d, str) else '')
@@ -124,21 +124,28 @@ def fillna_ratings(data):
 
 
 def fillna(data):
-  data["belongs_to_collection"].fillna("", inplace=True)
-  data["keywords"].fillna("", inplace=True)
-  data["spoken_languages"].fillna("", inplace=True)
-  data["videos"].fillna("", inplace=True)
-  data["production_companies"].fillna("", inplace=True)
-  data["tconst"].fillna("", inplace=True)
-  data["actors"].fillna("", inplace=True)
-  data["directors"].fillna("", inplace=True)
-  data["genres"].fillna("", inplace=True)
-  data["release_date"].fillna("", inplace=True)
+  safe_fillna(data, "belongs_to_collection", "")
+  safe_fillna(data, "keywords", "")
+  safe_fillna(data, "spoken_languages", "")
+  safe_fillna(data, "videos", "") 
+  safe_fillna(data, "production_companies", "") 
+  safe_fillna(data, "tconst", "") 
+  safe_fillna(data, "actors", "") 
+  safe_fillna(data, "directors", "") 
+  safe_fillna(data, "genres", "") 
+  safe_fillna(data, "release_date", "2000-12-13")
+  safe_fillna(data, "averageRating", "") 
+  safe_fillna(data, "numVotes", "") 
+  safe_fillna(data, "imdb_id", "") 
 
 
   return data
 
 
+def safe_fillna(data, column, value):
+  if column in data.columns:
+    return data[column].fillna(value, inplace=True)
+  
 
 def prepare_data():
   tmdb_data = prepare_tmdb_data()
