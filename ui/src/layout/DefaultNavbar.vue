@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-32">
+    <div class="pt-32 bg-slate-50 z-10">
         <header
         class="text-gray-100 py-4 px-6 shadow md:flex justify-between items-center nav-bar w-full z-1 mb-15 duration-300 ease-in"
         :style="{ top: navbarPosition }"
@@ -9,7 +9,6 @@
             </span>
             <h1 class="text-5xl font-bold">FilmScore</h1>
         </a>
-        
         
         <span
         @click="menuOpen"
@@ -38,8 +37,10 @@ export default {
         return {
             links: [
                 { name: "Home", link: "/" },
+                { name: "New Releases", link: "/" },
                 { name: "Movies", link: "/movies" },
                 { name: "Predict", link: "/predict" },
+                { name: "Methodology", link: "/methodology" },
             ],
             isOpen: false,
             isNavbarHidden: false,
@@ -76,8 +77,12 @@ export default {
 <style scoped>
 .nav-bar {
     position: fixed;
+    z-index: inherit;
     /* background: linear-gradient(to right, #1e3d61,#3e7acd,  #a5a8df, #a48fd9, #0a977d, #dffad8); */
-    background: linear-gradient(to right,  #4861be, #0a977d);
+    background: linear-gradient(to right,#5c2ac0,  #4861be, #0a977d);
+}
+div {
+    z-index: 10;
 }
 
 .language-selector {

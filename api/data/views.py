@@ -1,5 +1,5 @@
-from flask import Blueprint
-from .data_manager import check_data_status, get_people, get_genres, get_companies, get_languages, get_all_movies
+from flask import Blueprint, request
+from .data_manager import check_data_status, get_people, get_genres, get_companies, get_languages, get_all_movies, get_image
 
 import json
 
@@ -38,3 +38,11 @@ def _get_all_movies():
   movies = get_all_movies()
 
   return json.dumps(movies)
+
+
+@data_bp.route("/image", methods=["GET"])
+def _get_image():
+  id = request.args.get("id")
+  path = get_image(id)
+  print(path)
+  return json.dumps(path)

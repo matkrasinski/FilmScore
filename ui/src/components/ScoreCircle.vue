@@ -47,69 +47,70 @@ export default {
 <style scoped>
 .box
 {
-    position: relative;
-    margin: 50px;
+  position: relative;
+  margin: 50px;
+  z-index: -1;
 }
 .box .text
 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    text-align: center;
-    color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  color: #fff;
 }
 .box .text h2
 {
-    font-size: 64px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    border-radius: 3px;
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 3px;
 }
 .box .text
 {
-    font-size: 18px;
-    display: block;
+  font-size: 18px;
+  display: block;
 }
 
 .circle
 {
-    width: 220px;
-    height: 220px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1f2020;
-    border-radius: 100%;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1f2020;
+  border-radius: 100%;
 }
 .circle .points
 {
-    width: 3px;
-    height: 20px;
-    background: #0007;
-    position: absolute;
-    border-radius: 3px;
-    transform: rotate(calc(var(--i)*var(--rot))) translateY(-100px);
+  width: 3px;
+  height: 20px;
+  background: #0007;
+  position: absolute;
+  border-radius: 3px;
+  transform: rotate(calc(var(--i)*var(--rot))) translateY(-100px);
     
 }
 .points.marked
 {
-    animation: glow 0.04s linear forwards;
-    animation-delay: calc(var(--i)*0.005s);
+  animation: glow 0.04s linear forwards;
+  animation-delay: calc(var(--i)*0.01s);
 }
 
 @keyframes glow
 {
-    0%
-    {
-        background: #0007;
-        box-shadow: none;
-    }
-    100%
-    {
-        background: var(--bgColor);
-        box-shadow: 0 0 10px var(--bgColor);
-    }
+  0%
+  {
+    background: #0007;
+    box-shadow: none;
+  }
+  100%
+  {
+    background: var(--bgColor);
+    box-shadow: 0 0 10px var(--bgColor);
+  }
 }
 
 </style>
