@@ -84,6 +84,8 @@
       <div class="form-group">
         <input class="form-control" type="submit" value="Submit">
       </div>
+      <prediction-modal v-if="submitted" @modal-closed="this.submitted = !this.submitted" :score="this.prediction" :formData="formData"></prediction-modal>
+      <!-- v-if="submitted"  -->
     </form>
   </div>
 </template>
@@ -91,6 +93,7 @@
 <script>
 import axios from 'axios'
 import VueMultiselect from 'vue-multiselect'
+import PredictionModal from './PredictionModal.vue';
 
 export default {
   data() {
@@ -112,12 +115,15 @@ export default {
       people: [],
       genres: [],
       production_companies: [],
-      spoken_languages: []
+      spoken_languages: [],
+      prediction: null,
+      submitted: false
 
     };
   },
   components: {
-    VueMultiselect 
+    VueMultiselect,
+    PredictionModal
   },
   created() {
     this.loadPeople()
@@ -146,6 +152,8 @@ export default {
       axios.post("http://localhost:5000/model/predict", jsonData, { headers })
       .then(response => {
         console.log("Response: ", response.data)
+        this.submitted = true
+        this.prediction = response.data.prediction
       })
       .catch(error => {
         console.error("Error: ", error)
@@ -190,7 +198,8 @@ export default {
       .catch(error => {
         console.error("Error: ", error)
       })
-    }
+    },
+    
   }
 };
 </script>
@@ -224,6 +233,7 @@ select {
   border-radius: 4px;
   cursor: pointer;
 }
+
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

@@ -1,5 +1,7 @@
 <template>
+  
   <div id="priceList" class="flex flex-col bg-slate-50 pt-32 shadow">
+    <searching-bar/>
     <div id="con" class="container py-32">
       <button @click="prevPage" :disabled="currentPage === 0">
         <div class="bg-emerald-600 rounded-full w-24 h-24 flex items-center justify-center m-0 p-0 green-shadow">
@@ -28,12 +30,14 @@
 
 <script>
 import MovieTile from './MovieTile.vue';
+import SearchingBar from './SearchingBar.vue';
 import axios from 'axios';
 
 export default {
   name: 'LandingPage',
   components: {
     MovieTile,
+    SearchingBar
   },
   data() {
     return {

@@ -23,8 +23,10 @@ export default {
   },
   mounted() {
     this.validateScore()
+    this.prepareRating()
     this.assignColor()
     this.backgroundColor = this.bgColor
+
   },
   methods: {
     getRotate() {
@@ -38,6 +40,11 @@ export default {
       } else {
         this.color = "#ff0000"
       }
+    },
+    prepareRating() {
+      let rating = this.score
+      this.movieScore = parseInt(rating * 1000) / 100;
+      
     },
     validateScore() {
       this.movieScore = Math.max(this.movieScore, 0)

@@ -1,7 +1,7 @@
 <template>
     <div class="pt-32 bg-slate-50 z-10">
         <header
-        class="text-gray-100 py-4 px-6 shadow md:flex justify-between items-center nav-bar w-full z-1 mb-15 duration-300 ease-in"
+        class="text-gray-100 py-8 px-6 shadow md:flex justify-between items-center nav-bar w-full z-1 mb-15 duration-300 ease-in"
         :style="{ top: navbarPosition }"
         >
         <a @click="goTo('/')" class="flex items-center cursor-pointer">
@@ -38,7 +38,7 @@ export default {
             links: [
                 { name: "Home", link: "/" },
                 { name: "New Releases", link: "/releases" },
-                { name: "Movies", link: "/movies" },
+                // { name: "Movies", link: "/movies" },
                 { name: "Predict", link: "/predict" },
                 { name: "Methodology", link: "/methodology" },
             ],

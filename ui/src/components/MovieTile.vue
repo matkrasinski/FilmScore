@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center  rounded-3xl gap-16 my-16">
-      <score-circle :score="prepareRating()" class="score scale-35" :style="{'margin': mrg}" :bgColor="cColor"></score-circle>
+      <score-circle :score="this.currentMovie[this.score]" class="score scale-35" :style="{'margin': mrg}" :bgColor="cColor"></score-circle>
 
       <img v-if="imagePath != null" :src="this.imagePath" class="rounded-3xl shadow-2xl">
       <div v-else class="py-72 px-40 text-center shadow-2xl text-9xl bg-slate-200 rounded-3xl">
@@ -39,11 +39,6 @@ export default {
     this.fetchMovieImage()
   },
   methods: {
-    prepareRating() {
-      let rating = this.currentMovie[this.score]
-      rating = parseInt(rating * 1000) / 100;
-      return rating
-    },
     async fetchMovieImage() {
       const url = `http://localhost:5000/data/image?id=${this.currentMovie.id}`
       axios.get(url)
