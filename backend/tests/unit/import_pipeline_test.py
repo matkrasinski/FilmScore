@@ -8,10 +8,10 @@ def test_import_pipeline():
     assert len(import_pipeline.data) == 0
 
     import_pipeline.merge_tmdb_imdb(
-        "left", tmdb_data="api/tests/sample_data/tmdb_sample.csv",
-        title_ratings="api/tests/sample_data/title.ratings.tsv",
-        title_crew="api/tests/sample_data/title.crew.tsv",
-        principals="api/tests/sample_data/title.principals.tsv")
+        "left", tmdb_data="backend/tests/sample_data/tmdb_sample.csv",
+        title_ratings="backend/tests/sample_data/title.ratings.tsv",
+        title_crew="backend/tests/sample_data/title.crew.tsv",
+        principals="backend/tests/sample_data/title.principals.tsv")
     assert len(import_pipeline.data) != 0
 
     import_pipeline.set_train_data()
@@ -24,7 +24,7 @@ def test_import_pipeline():
     assert len(import_pipeline.data) != 0
 
     import_pipeline.run_predictions(
-        model_path="api/tests/sample_data/model.joblib")
+        model_path="backend/tests/sample_data/model.joblib")
 
     predictions = import_pipeline.new_data["predicted_rating"].to_list()
 

@@ -13,7 +13,7 @@ from .database.views import db_bp
 from .extensions import db
 
 
-def create_app(config_object="api.settings"):
+def create_app(config_object="backend.settings"):
     app = Flask(import_name=__name__)
     app.config.from_object(obj=config_object)
 

@@ -32,7 +32,7 @@ KNN_MODEL_LOCAL_PATH = "model.joblib"
 
 
 DB_LOCAL_PATH = "sqlite.db"
-DB_STATUS_LOCAL_PATH = "api/config/db_status.txt"
+DB_STATUS_LOCAL_PATH = "backend/config/db_status.txt"
 
 TMDB_IMAGES_NAME = "imagePaths.csv"
 TMDB_IMAGES_LOCAL_PATH = GENERATED_LOCAL_DIR + TMDB_IMAGES_NAME

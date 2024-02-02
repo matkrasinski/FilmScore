@@ -2,7 +2,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
-from api.ai.transformers import OneHotEncoderTransformer, MultiLabelBinarizerTransformer, TfidfVectorizerWrapper, DateToTimestampTransformer, VideosCounterTransformer, MinMaxScalerWrapper, StandardScalerWrapper
+from backend.ai.transformers import OneHotEncoderTransformer, MultiLabelBinarizerTransformer, TfidfVectorizerWrapper, DateToTimestampTransformer, VideosCounterTransformer, MinMaxScalerWrapper, StandardScalerWrapper
 
 
 def prepare_model(k=20):

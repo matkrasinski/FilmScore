@@ -1,4 +1,4 @@
-from api.extensions import db
+from backend.extensions import db
 import numpy as np
 from ...data.constant.COLUMNS import *
 

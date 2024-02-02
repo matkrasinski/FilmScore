@@ -1,4 +1,4 @@
-from api.extensions import db
+from backend.extensions import db
 from ...data.constant.COLUMNS import COLLECTION_ID_COLUMN, PRIMARY_NAME_TMDB_COLUMN
 
 

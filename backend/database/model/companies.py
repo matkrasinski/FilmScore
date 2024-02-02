@@ -1,4 +1,4 @@
-from api.extensions import db
+from backend.extensions import db
 from ...data.constant.COLUMNS import COMPANY_ID_COLUMN, COMPANY_NAME_COLUMN, RATING_COLUMN
 
 

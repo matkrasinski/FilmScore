@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def test_filter_data():
-    data = pd.read_csv("api/tests/sample_data/tmdb_sample.csv")
+    data = pd.read_csv("backend/tests/sample_data/tmdb_sample.csv")
     assert len(data) == 5
 
     data = prepare_sample_data(data)
@@ -14,7 +14,7 @@ def test_filter_data():
 
 
 def test_adjust_data():
-    data = pd.read_csv("api/tests/sample_data/tmdb_sample.csv")
+    data = pd.read_csv("backend/tests/sample_data/tmdb_sample.csv")
     data = prepare_sample_data(data)
     data = prepare_ratings(data)
     data = data_imputer.adjust_data(data)[X_TRAIN_COLUMNS]
@@ -23,18 +23,18 @@ def test_adjust_data():
 
 def test_prepare_actors():
     actors = data_imputer.prepare_actors(
-        "api/tests/sample_data/title.principals.tsv")
+        "backend/tests/sample_data/title.principals.tsv")
     assert len(actors) == 5
 
 
 def test_prepare_directors():
     directors = data_imputer.prepare_directors(
-        "api/tests/sample_data/title.crew.tsv")
+        "backend/tests/sample_data/title.crew.tsv")
     assert len(directors) == 5
 
 
 def test_fillna():
-    data = pd.read_csv("api/tests/sample_data/tmdb_sample.csv")
+    data = pd.read_csv("backend/tests/sample_data/tmdb_sample.csv")
     data = prepare_sample_data(data)
     data = prepare_ratings(data)
     assert data.isnull().any().any()
@@ -44,18 +44,18 @@ def test_fillna():
 
 def prepare_sample_data(data):
     imdb_ratings = pd.read_csv(
-        "api/tests/sample_data/title.ratings.tsv", sep="\t")
+        "backend/tests/sample_data/title.ratings.tsv", sep="\t")
     data = data.merge(imdb_ratings, left_on=IMDB_ID_COLUMN,
                       right_on=TCONST_COLUMN, how="left")
 
     directors = data_imputer.prepare_directors(
-        title_crew="api/tests/sample_data/title.crew.tsv")
+        title_crew="backend/tests/sample_data/title.crew.tsv")
 
     data = data.merge(directors, left_on=IMDB_ID_COLUMN,
                       right_on=TCONST_COLUMN, how="left")
 
     actors = data_imputer.prepare_actors(
-        title_principals="api/tests/sample_data/title.principals.tsv")
+        title_principals="backend/tests/sample_data/title.principals.tsv")
     data = data.merge(actors, left_on=IMDB_ID_COLUMN,
                       right_on=TCONST_COLUMN, how="left")
 

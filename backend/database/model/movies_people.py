@@ -1,4 +1,4 @@
-from api.extensions import db
+from backend.extensions import db
 from ...data.constant.COLUMNS import PERSON_ID_COLUMN, MOVIE_ID_COLUMN
 
 

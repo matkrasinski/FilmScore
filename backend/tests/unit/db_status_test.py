@@ -2,7 +2,7 @@ from ...config.db_status import read_status, update_status, is_initialized
 
 
 def test_read_status():
-    path = "api/tests/sample_data/db_status.txt"
+    path = "backend/tests/sample_data/db_status.txt"
     status = read_status(path)
     assert status == None
 

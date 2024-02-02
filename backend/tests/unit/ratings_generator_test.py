@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def test_people_ratings_genearator():
-    sample_data = pd.read_csv("api/tests/sample_data/tmdb_sample.csv")
+    sample_data = pd.read_csv("backend/tests/sample_data/tmdb_sample.csv")
     sample_data = prepare_sample_data(sample_data)
 
     ratings_generator = RatingsGenerator()
@@ -15,7 +15,7 @@ def test_people_ratings_genearator():
 
 
 def test_companies_ratings_genearator():
-    sample_data = pd.read_csv("api/tests/sample_data/tmdb_sample.csv")
+    sample_data = pd.read_csv("backend/tests/sample_data/tmdb_sample.csv")
     sample_data = prepare_sample_data(sample_data)
     sample_data["production_companies"] = sample_data["production_companies"].apply(
         lambda x: x.split("|"))
