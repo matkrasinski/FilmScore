@@ -12,12 +12,12 @@ class OneHotEncoderTransformer(BaseEstimator, TransformerMixin):
     self.weight = weight
 
   def fit(self, X, y=None):
-    X_str = np.asarray(X).astype(str)  # Convert to string type
+    X_str = np.asarray(X).astype(str)
     self.ohe.fit(X_str.reshape(-1, 1))
     return self
 
   def transform(self, X):
-    X_str = np.asarray(X).astype(str)  # Convert to string type
+    X_str = np.asarray(X).astype(str)
     X_filled = np.where(X_str == '', self.fill_value, X_str)
     X_filled_reshaped = X_filled.reshape(-1, 1)
     return self.ohe.transform(X_filled_reshaped) * self.weight

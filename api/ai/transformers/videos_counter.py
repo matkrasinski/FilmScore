@@ -12,10 +12,7 @@ class VideosCounterTransformer(BaseEstimator, TransformerMixin):
 
 
     def fit(self, X, y=None):
-        # Fit the VideosCounterTransformer and transform the data
         transformed_data = self.transform(X)
-
-        # Fit the scaler to the transformed data
         self.scaler.fit(transformed_data)
 
         return self

@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="flex flex-col items-center  rounded-3xl gap-16 my-16">
-      <score-circle :score="this.currentMovie[this.score]" class="score scale-35" :style="{'margin': mrg}" :bgColor="cColor"></score-circle>
+      <score-circle :score="this.currentMovie[this.score]" class="absolute bottom-0 right-0 score scale-35" :style="{'margin': mrg}" :bgColor="cColor"></score-circle>
 
       <img v-if="imagePath != null" :src="this.imagePath" class="rounded-3xl shadow-2xl">
       <div v-else class="py-72 px-40 text-center shadow-2xl text-9xl bg-slate-200 rounded-3xl">
         <i class="bi bi-image"></i>
       </div>
     </div>
-    <div class="">
+    <div class="text-center">
       <h1 class="font-bold text-3xl">{{ currentMovie.original_title }}</h1>
       <h2 class="text-2xl">{{ currentMovie.release_date }}</h2>
     </div>
@@ -40,13 +40,13 @@ export default {
   },
   methods: {
     async fetchMovieImage() {
-      const url = `http://localhost:5000/data/image?id=${this.currentMovie.id}`
+      const url = `http://localhost:5000/db/image?id=${this.currentMovie.tmdb_id}`
       axios.get(url)
       .then(response => {
         this.imagePath = response.data
       })
       .catch(error => {
-        console.error('Błąd podczas pobierania strony:', error.message);
+        console.error('Error occurred :', error.message);
       });
     }
   }

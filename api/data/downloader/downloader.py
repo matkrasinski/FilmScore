@@ -1,14 +1,21 @@
-import requests
 import gzip
 import os
+from datetime import datetime
+
 import gdown
+import requests
+
+from ..util.date_helper import get_post_update_date
+from ...data.constant.FILES_NAMES import *
+from ...settings import GOOGLE_DRIVE_TMDB_DATA_URL, TMDB_EXPORTS_URL, IMDB_DATASET_URL
+
 
 file_names = [
-  "title.principals.tsv",
-  "name.basics.tsv",
-  "title.ratings.tsv",
-  "title.basics.tsv",
-  "title.crew.tsv"
+    TITLE_PRINCIPALS_NAME,
+    NAMES_BASICS_NAME,
+    TITLE_RATINGS_NAME,
+    TITLE_BASIC_NAME,
+    TITLE_CREW_NAME
 ]
 
 
@@ -21,6 +28,7 @@ def download_file(url, destination):
     else:
         print(f"Failed to download file. Status code: {response.status_code}")
 
+
 def unzip_gz_file(gz_file_path, output_file_path):
     with gzip.open(gz_file_path, 'rb') as gz_file:
         with open(output_file_path, 'wb') as output_file:
@@ -28,54 +36,60 @@ def unzip_gz_file(gz_file_path, output_file_path):
     print(f"File {gz_file_path} successfully unzipped to {output_file_path}")
 
 
-# Example usage:
-# url = 'https://files.tmdb.org/p/exports/movie_ids_12_17_2023.json.gz'
-def download_IMDB_files():
-    data_directory = 'imdb'
+def download_IMDb_files(data_directory=IMDB_LOCAL_DIR):
     if not os.path.exists(data_directory):
         os.mkdir(data_directory)
-
-    # urls = [f'https://datasets.imdbws.com/{name}.gz' for name in file_names]
-
-    # print(urls)
-
     for name in file_names:
-        url = f'https://datasets.imdbws.com/{name}.gz'
-        download_file_destination = f'{data_directory}/{name}.gz'
-        
-        download_file(url=url, destination=download_file_destination)
-        unzip_gz_file(download_file_destination, f'{data_directory}/{name}')
-        if os.path.exists(download_file_destination):
-            os.remove(download_file_destination)
+        download_IMDb_file(name)
 
-def download_TMDB_files():
-    data_directory = 'tmdb'
+
+def download_IMDb_file(name, data_directory=IMDB_LOCAL_DIR):
     if not os.path.exists(data_directory):
         os.mkdir(data_directory)
+    url = f'{IMDB_DATASET_URL}{name}.gz'
+    download_file_destination = f'{data_directory}{name}.gz'
 
-    # urls = [f'https://datasets.imdbws.com/{name}.gz' for name in file_names]
+    download_file(url=url, destination=download_file_destination)
+    unzip_gz_file(download_file_destination, f'{data_directory}{name}')
+    if os.path.exists(download_file_destination):
+        os.remove(download_file_destination)
 
-    # print(urls)
-
-
-    gdown.download("https://drive.google.com/file/d/1KB04N6WcEKZ2DIZsxeX9IuqwsySaIOqg/view?usp=drive_link", "tmdb/tmdb.csv", quiet=False, fuzzy=True)
-
-    # for name in file_names:
-    #     url = f'https://datasets.imdbws.com/{name}.gz'
-    #     download_file_destination = f'{data_directory}/{name}.gz'
-        
-    #     download_file(url=url, destination=download_file_destination)
-    #     unzip_gz_file(download_file_destination, f'{data_directory}/{name}')
-    #     if os.path.exists(download_file_destination):
-    #         os.remove(download_file_destination)
+    return f'{data_directory}{name}'
 
 
-# url = 'https://datasets.imdbws.com/title.principals.tsv.gz'
-# destination = 'imdb/title.principals.tsv.gz'
-# file_destination = 'imdb/title.principals.tsv'
+def download_TMDB_data(destination=TMDB_LOCAL_DIR, filename=TMDB_DATA_NAME):
+    if not os.path.exists(destination):
+        os.mkdir(destination)
+    path = f'{destination}{filename}'
 
-# download_file(url, destination)
-# unzip_gz_file(destination, file_destination)
+    if not os.path.exists(path):
+        gdown.download(GOOGLE_DRIVE_TMDB_DATA_URL,
+                       path, quiet=False, fuzzy=True)
+    return path
 
 
-# download_IMDB_files()
+def download_TMDB_ids(date=datetime.now(), destination=TMDB_LOCAL_DIR, middle_name=TMDB_MOVIE_IDS_NAME):
+    formatted_date = get_post_update_date(date=date)
+    formatted_date = formatted_date.strftime(
+        "%m") + "_" + formatted_date.strftime("%d") + "_" + formatted_date.strftime("%G")
+    file_name = f'{middle_name}_{formatted_date}.json'
+
+    url = f'{TMDB_EXPORTS_URL}{file_name}.gz'
+    downloaded_file_path = f'{destination}{file_name}.json.gz'
+
+    if not os.path.exists(f'{destination}/{file_name}'):
+        delete_movies_starting_with(destination, middle_name + "_")
+        download_file(url, downloaded_file_path)
+        unzip_gz_file(downloaded_file_path, f'{destination}{file_name}')
+        if os.path.exists(downloaded_file_path):
+            os.remove(downloaded_file_path)
+
+    return f'{destination}{file_name}'
+
+
+def delete_movies_starting_with(directory, prefix):
+    for file in os.listdir(directory):
+        if file.startswith(prefix):
+            path = os.path.join(directory, file)
+            os.remove(path)
+            print(f'File deleted: {path}')
