@@ -1,16 +1,26 @@
 <template>
   <div>
     <default-navbar/>
-    <router-view/>
+    <Suspense>
+
+      <template #default>
+        <router-view/>
+      </template>
+      <template #fallback>
+        ...
+      </template>
+    </Suspense>
+    <default-footer/>
   </div>
 </template>
 
 <script>
+import DefaultFooter from './layout/DefaultFooter.vue'
 import DefaultNavbar from './layout/DefaultNavbar.vue'
 
 export default {
   name: 'App',
-  components: { DefaultNavbar }, 
+  components: { DefaultNavbar, DefaultFooter, }, 
 }
 </script>
 

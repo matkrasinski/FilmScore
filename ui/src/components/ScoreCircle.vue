@@ -4,7 +4,7 @@
       <div v-for="i in numPoints" :key="i" class="points" :class="[i <= this.movieScore ? 'marked' : '']" :style="{ '--i': i + 1, '--bgColor': this.color, '--rot': getRotate() + 'deg'}"></div>
     </div>
     <div class="text">
-      <h2>{{this.movieScore}}%</h2>
+      <h2>{{this.movieScore + this.suffix}}</h2>
     </div>
   </div>
 </template>
@@ -18,7 +18,8 @@ export default {
       numPoints: 100,
       movieScore: this.score,
       color: "#3c3c3c",
-      backgroundColor: "black"
+      backgroundColor: "black",
+      suffix: ""
     }
   },
   mounted() {
@@ -42,13 +43,18 @@ export default {
       }
     },
     prepareRating() {
-      let rating = this.score
-      this.movieScore = parseInt(rating * 1000) / 100;
-      
+      let rating = this.movieScore
+      this.movieScore = parseInt(parseInt(rating * 1000) / 100);
+      if (this.movieScore < 10) {
+        this.movieScore = "NR"
+      } else {
+        this.suffix = "%"
+      }
     },
     validateScore() {
       this.movieScore = Math.max(this.movieScore, 0)
       this.movieScore = Math.min(this.movieScore, 100)
+      
     }
   }
 }

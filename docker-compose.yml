@@ -1,0 +1,31 @@
+version: '3'
+x-aws-vpc: "vpc-e26e5687"
+services:
+  flask-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    volumes:
+      - ./backend:/backend
+      - ./generated:/generated
+      - ./tmdb:/tmdb
+      - ./imdb:/imdb
+      - ./requirements.txt:/requirements.txt
+    ports:
+      - "5000:5000"
+    image: filmscore-flask-backend:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  vue-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    volumes:
+      - ./ui:/ui
+    working_dir: /
+    image: filmscore-vue-ui:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - flask-backend

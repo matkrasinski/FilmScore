@@ -2,12 +2,12 @@
 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-  <div class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-8 text-center sm:items-center">
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-8 py-64 text-center sm:items-center">
       <div class="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-xl transition-all">
         <div class=" px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
           <i class="bi bi-x-lg text-4xl text-gray-400 cursor-pointer" @click="this.$emit('modalClosed')"></i>
         </div>
-        <div class="bg-white px-24  sm:flex sm:items-start mb-64 text-center justify-center">
+        <div class="bg-white  items-center mb-64 text-center justify-center">
           <score-circle :score="this.score" class="score scale-35 shadow-2xl rounded-full" :bgColor="'black'"/>
         </div>
         <div @click="exportToJSON" class="text-center save-button rounded-r-full rounded-l-full shadow-2xl py-8 mb-8 mr-32 ml-32 cursor-pointer font-extrabold text-2xl ">

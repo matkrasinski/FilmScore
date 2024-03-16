@@ -4,19 +4,29 @@
     <form @submit.prevent="submitForm" class="movie-form">
       <div class="form-group">
         <label for="original_language">Original Language:</label>
-        <input v-model="formData.original_language" class="form-control" type="text" id="original_language" name="original_language">
+        <VueMultiselect
+        v-model="formData.original_language"
+        :options="original_languages"
+        :multiple="false"
+        />
       </div>
-      
+
       <div class="form-group">
-        <label for="runtime">Runtime:</label>
-        <input v-model="formData.runtime" class="form-control"  type="text" id="runtime" name="runtime">
+        <label for="runtime">Movie duration in minutes:</label>
+        <input v-model="formData.runtime" class="form-control" type="number" min="0" oninput="validity.valid||(value='');" id="runtime" name="runtime">
       </div>
-      
+
       <div class="form-group">
-        <label for="belongs_to_collection">Belongs to Collection:</label>
-        <input v-model="formData.belongs_to_collection" class="form-control"  type="text" id="belongs_to_collection" name="belongs_to_collection">
+        <label for="belongs_to_collection">Movie collection:</label>
+        <VueMultiselect
+        v-model="formData.belongs_to_collection"
+        :options="collections"
+        :multiple="false"
+        :label="'primary_name'"
+        :trackBy="'collection_id'"
+        />
       </div>
-      
+
       <div class="form-group">
         <label for="release_date">Release Date:</label>
         <input v-model="formData.release_date" type="date" class="form-control" id="release_date" name="release_date">
@@ -59,6 +69,8 @@
         v-model="formData.production_companies"
         :options="production_companies"
         :multiple="true"
+        :label="'company_name'"
+        :trackBy="'company_id'"
         />
       </div>
       
@@ -116,8 +128,10 @@ export default {
       genres: [],
       production_companies: [],
       spoken_languages: [],
+      original_languages: [],
+      collections: [],
       prediction: null,
-      submitted: false
+      submitted: false,
 
     };
   },
@@ -126,29 +140,33 @@ export default {
     PredictionModal
   },
   created() {
-    this.loadPeople()
+    this.loadOriginalLanguages()
+    this.loadCollections()
     this.loadGenres()
+    this.loadPeople()
     this.loadCompanies()
     this.loadLanguages()
+    
   },
   methods: {
     parseDataToSubmit() {
       let parsedData = {...this.formData}
       parsedData.directors = parsedData.directors.map(director => director.id)
       parsedData.actors = parsedData.actors.map(actor => actor.id)
-
+      parsedData.production_companies = parsedData.production_companies.map(company => parseInt(company.company_id))
+      
+      parsedData.belongs_to_collection = parseInt(parsedData.belongs_to_collection.collection_id) 
+      
       return parsedData
     },
 
     submitForm() {
       let formData = this.parseDataToSubmit()
       const jsonData = JSON.stringify(formData);
-
       const headers = {
         'Content-Type': 'application/json'
       };
 
-      console.log(jsonData);
       axios.post("http://localhost:5000/model/predict", jsonData, { headers })
       .then(response => {
         console.log("Response: ", response.data)
@@ -158,14 +176,13 @@ export default {
       .catch(error => {
         console.error("Error: ", error)
       })
-      // this.$emit('form-submitted', this.parseDataToSubmit());
     },
     async loadPeople() {
-      axios.get("http://localhost:5000/data/people")
+      axios.get("http://localhost:5000/db/people")
       .then(response => {
         this.people = response.data
-        this.people = Object.entries(this.people).map(([key, value]) => ({
-          id: key, name: value
+        this.people = Object.values(this.people).map(value => ({
+          id: value.person_id, name: value.primary_name
         }));
       })
       .catch(error => {
@@ -173,7 +190,7 @@ export default {
       })
     },
     async loadGenres() {
-      axios.get("http://localhost:5000/data/genres")
+      axios.get("http://localhost:5000/db/genres")
       .then(response => {
         this.genres = response.data
       })
@@ -182,7 +199,7 @@ export default {
       })
     },
     async loadCompanies() {
-      axios.get("http://localhost:5000/data/companies")
+      axios.get("http://localhost:5000/db/companies")
       .then(response => {
         this.production_companies = response.data
       })
@@ -191,9 +208,27 @@ export default {
       })
     },
     async loadLanguages() {
-      axios.get("http://localhost:5000/data/languages")
+      axios.get("http://localhost:5000/db/spoken_languages")
       .then(response => {
         this.spoken_languages = response.data
+      })
+      .catch(error => {
+        console.error("Error: ", error)
+      })
+    },
+    async loadCollections() {
+      axios.get("http://localhost:5000/db/collections")
+      .then(response => {
+        this.collections = response.data
+      })
+      .catch(error => {
+        console.error("Error: ", error)
+      })
+    },
+    async loadOriginalLanguages() {
+      axios.get("http://localhost:5000/db/og_langs")
+      .then(response => {
+        this.original_languages = response.data
       })
       .catch(error => {
         console.error("Error: ", error)

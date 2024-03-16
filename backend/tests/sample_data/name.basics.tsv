@@ -1,0 +1,26 @@
+nconst	primaryName	birthYear	deathYear	primaryProfession	knownForTitles
+nm0000116	James Cameron	1954	\N	writer,producer,director	tt0499549,tt0120338,tt0090605,tt1630029
+nm0000134	Robert De Niro	1943	\N	actor,producer,soundtrack	tt0081398,tt0101540,tt0075314,tt0070379
+nm0000138	Leonardo DiCaprio	1974	\N	producer,actor,soundtrack	tt0407887,tt0120338,tt0993846,tt1375666
+nm0000353	Willem Dafoe	1955	\N	actor,soundtrack,producer	tt6938828,tt7984734,tt0145487,tt5649144
+nm0000354	Matt Damon	1970	\N	producer,actor,soundtrack	tt0119217,tt0407887,tt3659388,tt0134119
+nm0000375	Robert Downey Jr.	1965	\N	actor,producer,soundtrack	tt0988045,tt1300854,tt4154796,tt0371746
+nm0000701	Kate Winslet	1975	\N	actress,producer,soundtrack	tt0120338,tt0114388,tt0959337,tt0338013
+nm0000708	Billy Zane	1966	\N	actor,producer,soundtrack	tt0097162,tt0096874,tt0120338,tt0117331
+nm0000870	Kathy Bates	1948	\N	actress,director,soundtrack	tt0100157,tt0257360,tt0120338,tt0109642
+nm0001618	Joaquin Phoenix	1974	\N	actor,producer,writer	tt1560747,tt1798709,tt0358273,tt0172495
+nm0175814	Frances Conroy	1953	\N	actress,soundtrack	tt0338751,tt0248654,tt7286456,tt1179069
+nm0331516	Ryan Gosling	1980	\N	actor,soundtrack,producer	tt0780504,tt1120985,tt0805564,tt3783958
+nm0571952	Kate McKinnon	1984	\N	actress,soundtrack,writer	tt1517268,tt1289401,tt6394270,tt0072562
+nm0597388	Jason Momoa	1979	\N	actor,producer,writer	tt5433140,tt1477834,tt4334266,tt9663764
+nm0614165	Cillian Murphy	1976	\N	actor,producer,soundtrack	tt1375666,tt15398776,tt0448134,tt0289043
+nm0634240	Christopher Nolan	1970	\N	writer,producer,director	tt6723592,tt5013056,tt1375666,tt0816692
+nm0680846	Todd Phillips	1970	\N	producer,director,writer	tt0302886,tt0215129,tt1231583,tt7286456
+nm0933940	Patrick Wilson	1973	\N	actor,soundtrack,producer	tt0409459,tt1591095,tt0424136,tt0293508
+nm1289434	Emily Blunt	1983	\N	actress,soundtrack,producer	tt1631867,tt0458352,tt1385826,tt1441952
+nm1490123	James Wan	1977	\N	producer,writer,director	tt2820852,tt1477834,tt0387564,tt3065204
+nm1720028	Amber Heard	1986	\N	actress,producer,soundtrack	tt0376136,tt2172934,tt1477834,tt1502404
+nm1950086	Greta Gerwig	1983	\N	actress,writer,director	tt4925292,tt2347569,tt1517268,tt2872462
+nm3053338	Margot Robbie	1990	\N	actress,producer,soundtrack	tt5580036,tt1386697,tt0993846,tt1517268
+nm4793987	Issa Rae	1985	\N	producer,actress,writer	tt2123765,tt8085790,tt5024912
+nm5939164	Zazie Beetz	1991	\N	actress,producer,soundtrack	tt4288182,tt7286456,tt10451852,tt5463162

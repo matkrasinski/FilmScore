@@ -1,0 +1,8 @@
+# Dockerfile for Vue.js UI
+FROM node:14
+
+
+COPY ./ui /
+
+RUN npm install 
+CMD ["npm", "run", "serve"]
