@@ -17,7 +17,7 @@ class ImportPipeline:
         self.train_data = train_data
         self.new_data = new_data
 
-    def merge_tmdb_imdb(self, how="inner", tmdb_data=TMDB_DATA, title_ratings=TITLE_RATINGS, title_crew=TITLE_CREW, principals=TITLE_PRINCIPALS):
+    def get_data(self, how="left", tmdb_data=TMDB_DATA, title_ratings=TITLE_RATINGS, title_crew=TITLE_CREW, principals=TITLE_PRINCIPALS):
         self.data = pd.read_csv(tmdb_data)
         self.data.reset_index(drop=True)
 
@@ -49,7 +49,7 @@ class ImportPipeline:
         self.new_data = self.data[self.data[STATUS_COLUMN] != "Released"]
         self.new_data = fillna(self.new_data)
         self.new_data = self.apply_ratings(self.new_data)
-        self.new_data = fillna_ratings(self.new_data)
+        self.new_data = fillna_ratings(self.new_data, )
         self.new_data = replace_keywords_sep(self.new_data)
 
         print("set_new_data : Done")
@@ -66,7 +66,13 @@ class ImportPipeline:
         # require ratings generated
         self.train_data = fillna(self.train_data)
         self.train_data = self.apply_ratings(self.train_data)
-        self.train_data = fillna_ratings(self.train_data)
+
+        people_med = np.median([*self.ratings_helper.people_ratings.values()])
+        companies_ratings_med = np.median(
+            [*self.ratings_helper.companies_ratings.values()])
+
+        self.train_data = fillna_ratings(
+            self.train_data, actors_rating=people_med, directors_rating=people_med, companies_ratings=companies_ratings_med)
         self.train_data = replace_keywords_sep(self.train_data)
 
         print("set_train_data : Done")
@@ -74,12 +80,13 @@ class ImportPipeline:
 
     def apply_ratings(self, data):
         people_ratings = self.ratings_helper.people_ratings
-        companies_ratings = self.ratings_helper.companies_ratings
 
         data[DIRECTORS_RATING_COLUMN] = data[DIRECTORS_COLUMN].apply(lambda x: np.mean(
             [people_ratings[director] for director in x if director in people_ratings]))
         data[ACTORS_RATING_COLUMN] = data[ACTORS_COLUMN].apply(lambda x: np.mean(
             [people_ratings[actor] for actor in x if actor in people_ratings]))
+
+        companies_ratings = self.ratings_helper.companies_ratings
         data[COMPANIES_RATING_COLUMN] = data[PRODUCTION_COMPANIES_COLUMN].apply(lambda x: np.mean(
             [companies_ratings[company] for company in x if company in companies_ratings]))
 
@@ -142,7 +149,7 @@ class ImportPipeline:
         return self
 
     def run_pipeline(self):
-        self.merge_tmdb_imdb(how="left")\
+        self.get_data()\
             .set_train_data()\
             .set_new_data()\
             .set_released_data()\

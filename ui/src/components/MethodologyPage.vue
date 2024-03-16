@@ -41,7 +41,10 @@
         </span>
         looks very much like Gaussian distribution.
       </p> <span class="font-bold italic">FilmScore</span> uses those ratings to calculate ratings for actors, directors and production companies.</div>
-    <img :src="this.avgRatingsImg" class="scale-75">
+    <div class="container">
+
+      <img :src="this.avgRatingsImg" class="scale-75">
+    </div>
 
     <div class="text-3xl mb-8 font-bold">
       The additional features extracted from Actors, Directors and Production Companies are:

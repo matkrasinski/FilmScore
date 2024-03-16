@@ -5,7 +5,7 @@ X_TRAIN_COLUMNS = ["belongs_to_collection", "keywords", "genres", "original_lang
 
 Y_TRAIN_COLUMN = "averageRating"
 
-EXPORT_COLUMNS = ['tmdb_id', 'imdb_id', 'original_title', 'genres', 'average_rating',
+EXPORT_COLUMNS = ['id', 'imdb_id', 'original_title', 'genres', 'average_rating',
                   'predicted_rating', 'num_votes', 'keywords', 'belongs_to_collection',
                   'videos', 'runtime', 'original_language', 'spoken_languages', 'status',
                   'release_date', 'poster_source', 'production_companies', "actors", "directors"]

@@ -52,7 +52,6 @@ class Movies(db.Model):
         self.status = status
 
     def to_large_dict(self):
-        print(self.people, self.companies)
         actors = list(map(lambda x: {ID: x.person.person_id, NAME: x.person.primary_name}, filter(
             lambda x: x.category == ACTOR_COLUMN and x.person is not None, self.people)))
         directors = list(map(lambda x:  {ID: x.person.person_id, NAME: x.person.primary_name}, filter(

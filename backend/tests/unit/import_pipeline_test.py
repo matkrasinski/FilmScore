@@ -7,7 +7,7 @@ def test_import_pipeline():
     import_pipeline = ImportPipeline()
     assert len(import_pipeline.data) == 0
 
-    import_pipeline.merge_tmdb_imdb(
+    import_pipeline.get_data(
         "left", tmdb_data="backend/tests/sample_data/tmdb_sample.csv",
         title_ratings="backend/tests/sample_data/title.ratings.tsv",
         title_crew="backend/tests/sample_data/title.crew.tsv",

@@ -1,5 +1,5 @@
 <template>
-   <div id="priceList" class="flex flex-col pt-16">
+   <div class="flex flex-col pt-16">
         <h1 class="mb-4 text-5xl font-extrabold text-gray-900 text-center py-8">Get movies by genres</h1>
 
           <carousel :items-to-show="this.numOfDisplayableElemets" class="mb-16">

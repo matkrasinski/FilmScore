@@ -5,7 +5,7 @@ from ...ai.model_loader import ModelLoader
 from ...data.image_selector import find_image
 from ..util import db_helper
 from ...data.util.ratings_generator import RatingsGenerator
-from ...data.constant.FILES import *
+from ...data.constant.FILES import TITLE_RATINGS, TMDB_COLLECTIONS
 from ...data.util.api_data_fetcher import get_movie_data
 from ...data.constant.COLUMNS import *
 from ...data.util.data_exporter import export_all_to_df_flatten
@@ -20,14 +20,14 @@ class UpdatePipeline:
         self.train_data = train_data
         self.new_data = new_data
 
-    def init_imdb(self, title_ratings=TITLE_RATINGS):
+    def get_imdb_data(self, title_ratings=TITLE_RATINGS):
         self.imdb_ratings = pd.read_csv(title_ratings, sep="\t")
         print("IMDB INITIALIZED")
         return self
 
     def update_data(self, max_size=None):
         ids_to_update = db_helper.get_movies_to_update()
-
+        print("Number of new data : ", len(ids_to_update))
         batch_size = 100
         updated_data = []
         ids = []
@@ -64,7 +64,6 @@ class UpdatePipeline:
 
     def set_data(self):
         self.data = export_all_to_df_flatten(save=False)
-        # self.data = adjust_data(self.data)
         self.data.rename(columns={
             AVERAGE_RATING_TMDB_COLUMN: AVERAGE_RATING_IMDB_COLUMN,
             NUM_VOTES_TMDB_COLUMN: NUM_VOTES_IMDB_COLUMN,
@@ -147,27 +146,22 @@ class UpdatePipeline:
         to_save.fillna({
             "original_title": "",
             "predicted_rating": 0,
+            "poster_source": ""
         }, inplace=True)
-
-        to_save[POSTER_SOURCE_COLUMN] = to_save.apply(
-            lambda x: find_image(x[TMDB_ID_TMDB_COLUMN]))
 
         db_helper.save_released_movies(to_save)
         db_helper.save_movies_people(to_save)
         db_helper.save_movies_companies(to_save)
 
-        print("save_released_movies : Done")
         return self
 
     def run_predictions(self):
-        print(self.new_data)
         if len(self.new_data) != 0:
             new_data_copy = self.new_data.copy()
             new_data_copy[RELEASE_DATE_COLUMN] = new_data_copy[RELEASE_DATE_COLUMN].apply(
                 lambda x: x if x != "" else "9999-12-31")
             self.new_data[PREDICTED_RATING_COLUMN] = ModelLoader(
                 train_data=self.train_data).predict_rating(new_data_copy)
-        print("PREDICTIONS DONE")
         return self
 
     def save_new_movies(self):
@@ -182,16 +176,27 @@ class UpdatePipeline:
         db_helper.save_movies_people(to_save)
         db_helper.save_movies_companies(to_save)
 
-        print("NEW MOVIES SAVED")
         return self
 
-    def run_pipeline(self):
-        self.init_imdb()\
-            .update_data(max_size=100)\
+    def save_companies(self):
+        db_helper.save_companies(self.ratings_helper.companies_ratings_to_df())
+        return self
+
+    def save_collections(self):
+        collections = pd.read_json(TMDB_COLLECTIONS, lines=True)
+        db_helper.save_collections(collections)
+        return self
+
+    def run_pipeline(self, max_size=None):
+        self.get_imdb_data()\
+            .update_data(max_size=max_size)\
             .set_data()\
             .set_train_data()\
             .set_new_data()\
+            .set_released_data()\
             .save_companies()\
             .save_people()\
+            .save_collections()\
+            .save_released_movies()\
             .run_predictions()\
             .save_new_movies()

@@ -176,7 +176,6 @@ export default {
       .catch(error => {
         console.error("Error: ", error)
       })
-      // this.$emit('form-submitted', this.parseDataToSubmit());
     },
     async loadPeople() {
       axios.get("http://localhost:5000/db/people")

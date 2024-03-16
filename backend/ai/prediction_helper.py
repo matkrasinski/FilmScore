@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 from ..data.constant.FILES_NAMES import KNN_MODEL_LOCAL_PATH
 from ..database.util.import_pipeline import ImportPipeline
 from ..data.status.status_checker import check_file_status
@@ -28,11 +29,15 @@ def get_prediction(data, model_path=KNN_MODEL_LOCAL_PATH):
 
     if type(data) != pd.DataFrame:
         data = pd.DataFrame([data])
+    people_med = ratings_helper.get_people_ratings_med()
+    companies_ratings_med = ratings_helper.get_companies_ratings_med()
 
-    data = fillna_ratings(data)
+    data = fillna_ratings(data, actors_rating=people_med,
+                          directors_rating=people_med, companies_ratings=companies_ratings_med)
 
     data[RUNTIME_COLUMN] = data[RUNTIME_COLUMN].apply(
         lambda x: x if isinstance(x, int) else 0)
+
     data[RELEASE_DATE_COLUMN] = data[RELEASE_DATE_COLUMN] if data[RELEASE_DATE_COLUMN].str == '' else '9999-12-31'
 
     return ModelLoader(model_path=model_path).predict_rating(data)

@@ -12,7 +12,6 @@ SQLALCHEMY_DATABASE_URI: str = "sqlite://///" + os.path.join(
     pathlib.Path(
         __file__).parent.parent, "sample_data/sqlite.db"
 )
-print(SQLALCHEMY_DATABASE_URI)
 
 # pymysql.install_as_MySQLdb()
 # SQLALCHEMY_DATABASE_URI: str = 'mysql://root:123123123123123123123@localhost:3306/FilmScoreDB'

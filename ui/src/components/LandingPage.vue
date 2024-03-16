@@ -1,5 +1,5 @@
 <template>
-  <div id="priceList" class="flex flex-col bg-slate-50 pt-2 shadow">
+  <div class="flex flex-col bg-slate-50 pt-2 shadow">
     <searching-bar v-if="this.movies.length != 0" @search-movies="(query) => searchMovies(query)"/>
     <div class="text-center pt-32 pb-16">
       <h1 class="justify-center text-7xl font-sans tracking-wide ">Looking for a Movie?</h1>

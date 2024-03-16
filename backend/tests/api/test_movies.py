@@ -41,7 +41,7 @@ def test_get_movies_by_genres(client):
     assert len(response.get_json()["movies"]) == 1
 
 
-def test_get_movies_by_desc_by_rating(client):
+def test_get_movies_desc_by_rating(client):
     payload = [[], {"rating": "desc", "numVotes": ""}]
     response = client.post(
         '/db/movies/pages?page=0&size=3&query=', json=payload)
@@ -50,7 +50,7 @@ def test_get_movies_by_desc_by_rating(client):
     assert response.get_json()["movies"][0]["original_title"] == "Oppenheimer"
 
 
-def test_get_movies_by_asc_by_rating(client):
+def test_get_movies_asc_by_rating(client):
     payload = [[], {"rating": "asc", "numVotes": ""}]
     response = client.post(
         '/db/movies/pages?page=0&size=3&query=', json=payload)
@@ -59,7 +59,7 @@ def test_get_movies_by_asc_by_rating(client):
     assert response.get_json()["movies"][0]["original_title"] == "Aquaman"
 
 
-def test_get_movies_by_asc_by_num_votes(client):
+def test_get_movies_asc_by_num_votes(client):
     payload = [[], {"rating": "", "numVotes": "asc"}]
     response = client.post(
         '/db/movies/pages?page=0&size=3&query=', json=payload)
@@ -68,7 +68,7 @@ def test_get_movies_by_asc_by_num_votes(client):
     assert response.get_json()["movies"][0]["original_title"] == "Aquaman"
 
 
-def test_get_movies_by_desc_by_num_votes(client):
+def test_get_movies_desc_by_num_votes(client):
     payload = [[], {"rating": "", "numVotes": "desc"}]
     response = client.post(
         '/db/movies/pages?page=0&size=3&query=', json=payload)
@@ -107,7 +107,7 @@ def test_get_new_movies_by_genres(client):
     assert len(response.get_json()["movies"]) == 1
 
 
-def test_get_new_movies_by_desc_by_rating(client):
+def test_get_new_movies_desc_by_rating(client):
     payload = [[], {"rating": "desc", "numVotes": ""}]
     response = client.post(
         '/db/movies/new/pages?page=0&size=3&query=', json=payload)
@@ -116,7 +116,7 @@ def test_get_new_movies_by_desc_by_rating(client):
     assert response.get_json()["movies"][0]["original_title"] == "Barbie"
 
 
-def test_get_new_movies_by_asc_by_rating(client):
+def test_get_new_movies_asc_by_rating(client):
     payload = [[], {"rating": "asc", "numVotes": ""}]
     response = client.post(
         '/db/movies/new/pages?page=0&size=3&query=', json=payload)
@@ -125,7 +125,7 @@ def test_get_new_movies_by_asc_by_rating(client):
     assert response.get_json()["movies"][0]["original_title"] == "Barbie"
 
 
-def test_get_new_movies_by_asc_by_num_votes(client):
+def test_get_new_movies_asc_by_num_votes(client):
     payload = [[], {"rating": "", "numVotes": "asc"}]
     response = client.post(
         '/db/movies/new/pages?page=0&size=3&query=', json=payload)
@@ -134,7 +134,7 @@ def test_get_new_movies_by_asc_by_num_votes(client):
     assert response.get_json()["movies"][0]["original_title"] == "Barbie"
 
 
-def test_get_new_movies_by_desc_by_num_votes(client):
+def test_get_new_movies_desc_by_num_votes(client):
     payload = [[], {"rating": "", "numVotes": "desc"}]
     response = client.post(
         '/db/movies/new/pages?page=0&size=3&query=', json=payload)

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from ..constant.FILES import TITLE_CREW, TITLE_PRINCIPALS, TITLE_RATINGS, TMDB_COLLECTIONS, TMDB_DATA
+from ..constant.FILES import TITLE_CREW, TITLE_PRINCIPALS
 from ..constant.COLUMNS import *
 from ..constant.NA import NA_ITERABLE, NA_NON_ITERABLE
 
@@ -60,7 +60,11 @@ def adjust_data(data):
         lambda d: d if isinstance(d, str) else '')
 
     data[ACTORS_COLUMN] = data[ACTORS_COLUMN].apply(
+        lambda d: d.split("|") if isinstance(d, str) else d)
+    data[ACTORS_COLUMN] = data[ACTORS_COLUMN].apply(
         lambda d: d if isinstance(d, list) else [])
+    data[DIRECTORS_COLUMN] = data[DIRECTORS_COLUMN].apply(
+        lambda d: d.split("|") if isinstance(d, str) else d)
     data[DIRECTORS_COLUMN] = data[DIRECTORS_COLUMN].apply(
         lambda d: d if isinstance(d, list) else [])
 
@@ -79,11 +83,11 @@ def apply_ratings(data, people_ratings, companies_ratings):
     return data
 
 
-def fillna_ratings(data):
+def fillna_ratings(data, actors_rating=0.6, directors_rating=0.6, companies_ratings=0.6):
     data = data.fillna({
-        DIRECTORS_RATING_COLUMN: 0.6,
-        COMPANIES_RATING_COLUMN: 0.6,
-        ACTORS_RATING_COLUMN: 0.6
+        DIRECTORS_RATING_COLUMN: directors_rating,
+        COMPANIES_RATING_COLUMN: companies_ratings,
+        ACTORS_RATING_COLUMN: actors_rating
     })
 
     return data

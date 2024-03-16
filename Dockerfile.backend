@@ -1,0 +1,12 @@
+# Dockerfile for Flask Backend
+FROM python:3.10
+
+COPY ./backend /backend
+COPY ./generated /generated
+COPY ./tmdb /tmdb
+COPY ./imdb /imdb
+COPY ./requirements.txt /requirements.txt
+
+RUN pip install -r /requirements.txt
+
+CMD ["python", "-m", "backend.app", "--host=0.0.0.0"]

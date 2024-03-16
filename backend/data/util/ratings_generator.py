@@ -5,6 +5,7 @@ from ...database.model import People, Companies
 from ...data.constant.COLUMNS import *
 from ...data.constant.FILES_NAMES import GENERATED_LOCAL_DIR, PEOPLE_RATINGS_NAME, COMPANIES_RATINGS_NAME
 from ...data.constant.FILES import NAMES_BASICS, TMDB_COMPANIES_IDS
+from sqlalchemy import func
 
 
 class RatingsGenerator:
@@ -127,7 +128,6 @@ class RatingsGenerator:
             people_ratings_df.sort_values(by=RATING_COLUMN, ascending=False).to_csv(
                 f'{generated_path}{PEOPLE_RATINGS_NAME}', index=False)
 
-        print(people_ratings_df.info())
 
         return people_ratings_df
 
@@ -136,8 +136,9 @@ class RatingsGenerator:
             list(self.companies_ratings.items()), columns=[COMPANY_COLUMN, RATING_COLUMN])
 
         companies_ratings_df.columns = [COMPANY_COLUMN, RATING_COLUMN]
-        companies_ratings_df[COMPANY_COLUMN] = companies_ratings_df[COMPANY_COLUMN].astype(
-            int)
+        
+        companies_ratings_df[COMPANY_COLUMN] = companies_ratings_df[COMPANY_COLUMN].apply(
+            lambda x: int(x) if x != '' else x)
 
         names = pd.read_json(TMDB_COMPANIES_IDS, lines=True)
 
@@ -163,6 +164,20 @@ class RatingsGenerator:
             Companies.company_id.in_(companies)).with_entities(Companies.rating).all()
 
         return np.mean(companies_ratings)
+
+    def get_people_ratings_med(self):
+        people_ratings = People.query.filter(
+            People.rating >= 0).with_entities(People.rating).all()
+        people_ratings = np.median(list(map(lambda x: x[0], people_ratings)))
+
+        return people_ratings
+
+    def get_companies_ratings_med(self):
+        companies_ratings = Companies.query.filter(Companies.rating >= 0).with_entities(
+            Companies.rating).all()
+        companies_ratings = np.median(
+            list(map(lambda x: x[0], companies_ratings)))
+        return companies_ratings
 
 
 def normalize_feature(value, min, max):

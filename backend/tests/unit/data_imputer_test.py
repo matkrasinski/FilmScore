@@ -69,4 +69,3 @@ def prepare_ratings(data):
     return data
 
 
-print(test_prepare_actors())

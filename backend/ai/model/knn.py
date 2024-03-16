@@ -2,35 +2,26 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
-from backend.ai.transformers import OneHotEncoderTransformer, MultiLabelBinarizerTransformer, TfidfVectorizerWrapper, DateToTimestampTransformer, VideosCounterTransformer, MinMaxScalerWrapper, StandardScalerWrapper
+from backend.ai.transformers import OneHotEncoderTransformer, MultiLabelBinarizerTransformer, CountVectorizerWrapper, DateToTimestampTransformer, VideosCounterTransformer, MinMaxScalerWrapper, StandardScalerWrapper
 
 
 def prepare_model(k=20):
     weights = {
-        "directors_rating": 6/22 * 1,
-        "actors_rating": 7/22 * 1,
-        "companies_rating": 7/22 * 1,
-
-        "collection": 1/11 * 1,
-        "release_date": 1/11 * 1,
-        "spoken_languages": 1/11 * 1,
-
-        "genres": 1/22 * 1,
-        "production_companies": 1/22 * 1,
-
-        "keywords": 1/44 * 1,
-        "actors": 1/44 * 1,
-        "directors": 1/44 * 1,
-        "runtime": 1/44 * 1,
-        "videos": 1/44 * 1,
-
-        "og_lang": 1/100 * 1
+        "directors_rating": 20/100,
+        "actors_rating": 23/100,
+        "companies_rating": 23/100,
+        "collection": 6/100,
+        "release_date": 6/100,
+        "spoken_languages": 6/100,
+        "genres": 4.8/100,
+        "production_companies": 3/100,
+        "keywords": 1.5/100,
+        "actors": 1.5/100,
+        "directors": 1.5/100,
+        "runtime": 1.5/100,
+        "videos": 1.5/100,
+        "og_lang": 0.7/100
     }
-
-    sum = 0.0
-    for val in weights.values():
-        sum += val
-    print(sum)
 
     transformers = [
         ("collection", OneHotEncoderTransformer(
@@ -47,7 +38,7 @@ def prepare_model(k=20):
             weight=weights["actors"]), "actors"),
         ('directors', MultiLabelBinarizerTransformer(
             weight=weights["directors"]), "directors"),
-        ("keywords", TfidfVectorizerWrapper(
+        ("keywords", CountVectorizerWrapper(
             weight=weights["keywords"]), "keywords"),
         ("release_date", DateToTimestampTransformer(
             date_column="release_date", weight=weights["release_date"]), ["release_date"]),
@@ -55,7 +46,6 @@ def prepare_model(k=20):
             weight=weights["runtime"]), ["runtime"]),
         ("videos", VideosCounterTransformer(
             weight=weights["videos"]), ["videos"]),
-
         ("companies_rating", MinMaxScalerWrapper(
             weight=weights["companies_rating"]), ["companies_rating"]),
         ("actors_rating", MinMaxScalerWrapper(

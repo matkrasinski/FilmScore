@@ -17,7 +17,7 @@ def get_movie_data(id, append_to_response="keywords,videos"):
         return {}
     if not json_body.get("success", True):
         return {}
-    # print(json_body)
+    
     new_data = {
         COLLECTION_COLUMN: json_body.get(COLLECTION_COLUMN, {}).get(ID, "") if json_body.get(COLLECTION_COLUMN) else "",
         BUDGET_COLUMN: json_body.get(BUDGET_COLUMN, 0),

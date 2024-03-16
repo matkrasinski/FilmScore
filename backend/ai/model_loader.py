@@ -1,7 +1,6 @@
 import pandas as pd
 
 from joblib import dump, load
-from .transformers import *
 from .model.knn import prepare_model
 from ..data.status.status_checker import check_file_status
 from ..data.status.file_status import FileStatus
@@ -22,11 +21,9 @@ class ModelLoader:
         if generate or model_status[STATUS_COLUMN] != FileStatus.OK:
             self.model = self.generate_model()
         else:
-            print(self.model_path)
             self.model = load(self.model_path)
 
     def generate_model(self, save=True):
-
         model = prepare_model()
 
         model.fit(self.train_data[X_TRAIN_COLUMNS],
@@ -40,5 +37,4 @@ class ModelLoader:
     def predict_rating(self, data):
         if self.model is None:
             self.load_model()
-        result = self.model.predict(data)
-        return result
+        return self.model.predict(data)

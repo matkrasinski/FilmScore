@@ -121,11 +121,9 @@ def export_all_to_df_flatten(path=GENERATED_LOCAL_DIR, save=True):
         COMPANY_ID_COLUMN].agg(lambda x: '|'.join(map(str, x))).reset_index()
 
     movies_companies.fillna({COMPANY_ID_COLUMN: ""}, inplace=True)
-    movies_companies.rename(
-        columns={COMPANY_ID_COLUMN: PRODUCTION_COMPANIES_COLUMN}, inplace=True)
 
     movies = movies.merge(
-        movies_companies, left_on=TMDB_ID_COLUMN, right_on=MOVIE_ID_COLUMN, how="left")
+        movies_companies, left_on=TMDB_ID_TMDB_COLUMN, right_on=MOVIE_ID_COLUMN, how="left")
 
     movies = movies[EXPORT_COLUMNS]
     if save:
@@ -135,4 +133,4 @@ def export_all_to_df_flatten(path=GENERATED_LOCAL_DIR, save=True):
 
 
 if __name__ == "__main__":
-    export_movies()
+    export_all_to_df_flatten()
