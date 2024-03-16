@@ -1,5 +1,5 @@
 ## Prerequirements:
-- There need to be tmdb.csv file in `tmdb/` directory
+- There need to be unpacked `tmdb.csv` file from `tmdb.csv.zip` file in `tmdb/` directory
 - There should be IMDb files in imdb directory:
 `title.basics.tsv`
 `title.ratings.tsv`
